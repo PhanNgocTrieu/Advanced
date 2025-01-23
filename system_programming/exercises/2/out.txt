@@ -1,0 +1,6 @@
+This is my name: John
+I am curious about the way of communication in system call
+I need to test it with this exercise
+trieu.phan
+trieu.John
+trieu.hello
