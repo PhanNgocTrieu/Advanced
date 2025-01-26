@@ -45,7 +45,7 @@ void create_directory() {
     for (int i = 0; i < MAX_PATTERNS; ++i) {
         if (catagorize_patterns[i] != nullptr) {
             if (access(catagorize_patterns[i], R_OK | W_OK) == -1) {
-                mkdir(catagorize_patterns[i], 0444);
+                mkdir(catagorize_patterns[i], 0777);
             }
         }
     }
@@ -136,7 +136,9 @@ void categorize_files(const char* f_path) {
                     strcat(des_file, "/");
                     strcat(des_file, get_dir->d_name);
                     printf("des: %s\n", des_file);
-                    do_move(src_file, des_file);
+                    // do_move(src_file, des_file);
+
+                    rename(src_file, des_file);
                 }
             }
         }
@@ -147,17 +149,17 @@ void categorize_files(const char* f_path) {
 }
 
 int main(int argc, char* argv[]) {
-    if (creat("file.bmp", S_IREAD | S_IWRITE) == -1) {
-        printf("create file %s failed\n", "bmp/file.bmp");
-        return -1;
-    }
+    // if (creat("file.bmp", S_IREAD | S_IWRITE) == -1) {
+    //     printf("create file %s failed\n", "bmp/file.bmp");
+    //     return -1;
+    // }
     printf("create file: %s\n", "bmp/file.bmp");
-    // setup();
-    // parse_catagorize(argc, argv);
-    // char current_path[256];
-    // getcwd(current_path, 256);
-    // // printf("current path: %s\n", current_path);
-    // categorize_files(current_path);
-    // release();
+    setup();
+    parse_catagorize(argc, argv);
+    char current_path[256];
+    getcwd(current_path, 256);
+    // printf("current path: %s\n", current_path);
+    categorize_files(current_path);
+    release();
     return 0;
 }

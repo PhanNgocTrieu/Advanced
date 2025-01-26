@@ -17,7 +17,7 @@ int create_file(char* file, int mode) {
         S_IRWXU --- read, write, execute permission for the user
         S_IRGRP – read for group
         S_IWGRP – write for group
-        S_IXGRP – execute for group
+        S_IXGRP – execute for` group
         S_IRWXG – read, write, execute for the group
         S_IROTH --- read for others
         S_IWOTH – write for others
