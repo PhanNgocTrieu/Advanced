@@ -45,7 +45,7 @@ void create_directory() {
     for (int i = 0; i < MAX_PATTERNS; ++i) {
         if (catagorize_patterns[i] != nullptr) {
             if (access(catagorize_patterns[i], R_OK | W_OK) == -1) {
-                mkdir(catagorize_patterns[i], 0444);
+                mkdir(catagorize_patterns[i], S_IRWXU | S_IRWXG | S_IROTH);
             }
         }
     }
@@ -63,43 +63,6 @@ void parse_catagorize(int argc, char* argv[]) {
     }
 
     create_directory();
-}
-
-void do_move(const char* src, const char* des) {
-    if (access(des, F_OK) == -1) {
-        if (creat(des, S_IREAD | S_IWRITE) == -1) {
-            printf("create file %s failed\n", des);
-            return;
-        }
-        printf("create file: %s\n", des);
-    }
-
-    int d_fd = open(des, O_RDWR | O_CREAT);
-    int s_fd = open(src, O_RDONLY);
-    if (d_fd == -1 || s_fd) {
-        perror("Could no open file to read/write");
-        return;
-    }
-
-    char buffer[1024];
-    size_t bytes = read(s_fd, buffer, 1024);
-    while (bytes > 0)
-    {
-        write(d_fd, buffer, bytes);
-
-        // move position to last
-        lseek(d_fd, bytes, 1);
-        lseek(s_fd, bytes, 1);
-
-        // continue to read;
-        bytes = read(s_fd, buffer, 1024);
-    }
-
-    // remove file
-    remove(src);
-
-    close(s_fd);
-    close(d_fd);
 }
 
 void categorize_files(const char* f_path) {
@@ -136,7 +99,10 @@ void categorize_files(const char* f_path) {
                     strcat(des_file, "/");
                     strcat(des_file, get_dir->d_name);
                     printf("des: %s\n", des_file);
-                    do_move(src_file, des_file);
+                    // do_move(src_file, des_file);
+                    if (rename(src_file, des_file) == -1) {
+                        perror("failed to rename");
+                    }
                 }
             }
         }
@@ -147,17 +113,10 @@ void categorize_files(const char* f_path) {
 }
 
 int main(int argc, char* argv[]) {
-    if (creat("file.bmp", S_IREAD | S_IWRITE) == -1) {
-        printf("create file %s failed\n", "bmp/file.bmp");
-        return -1;
-    }
-    printf("create file: %s\n", "bmp/file.bmp");
-    // setup();
-    // parse_catagorize(argc, argv);
-    // char current_path[256];
-    // getcwd(current_path, 256);
-    // // printf("current path: %s\n", current_path);
-    // categorize_files(current_path);
-    // release();
+    setup();
+    parse_catagorize(argc, argv);
+    char current_path[256];
+    categorize_files(getcwd(current_path, 256));
+    release();
     return 0;
 }
