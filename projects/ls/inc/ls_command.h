@@ -1,3 +1,6 @@
+#ifndef _LS_COMMAND_H_
+#define _LS_COMMAND_H_
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -11,6 +14,8 @@
 #include <memory.h>
 #include <memory>
 #include <iostream>
+#include "object.h"
+#include "logger.h"
 
 using namespace std;
 
@@ -40,15 +45,31 @@ class ls_command {
 
 
     public:
-        static ls_command* get_instance(int argc, char* argv[]);
+        static ls_command* get_instance();
+        void init_with_argc(int argc, char* argv[]);
+        void execute();
+
+
 
     protected:
-        ls_command(int argc, char* argv[]);
+        ls_command();
+        virtual ~ls_command(){};
         ReetCode deserialize_argc(int argc, char* argv[]);
         const string& get_help();
+        string get_cur_dir();
+        void set_cur_dir(const string& dir);
+        void set_flags(char c);
+
+
+    protected:
+        // Signals
+        void emit_cur_dir_changed();
 
     protected:
         static ls_command* instance;
-        string m_cur_dir = 0;
+        Logger* m_logger = nullptr;
+        string m_cur_dir = "";
         uint64_t m_flags = 0;
 };
+
+#endif
