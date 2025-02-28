@@ -1,3 +1,16 @@
+#ifndef _SIGNAL_SLOT_H_
+#define _SIGNAL_SLOT_H_
+
+#include <functional>
+#include <cstdarg>
+#include <stdarg.h>
+
+template <typename ...Args>
+class Slot;
+
+template <typename ...Args>
+class Signal;
+
 template <typename ...Args>
 class Signal {
     public:
@@ -18,8 +31,6 @@ class Signal {
             }
         }
 
-        void disconnect();
-
         void emit(Args... parameters)
         {
             for (auto &slot : _connectedSlots) {
@@ -37,7 +48,7 @@ class Slot {
     public:
         Slot(const Slot&) = delete;
         Slot(Slot&&) = delete;
-        Slot &operator(const Slot&) = delete;
+        Slot &operator()(const Slot&) = delete;
 
         Slot(): _init(false) {};
         Slot(std::function<void(Args...)> func): _init(true), _callback(func) {};
@@ -66,3 +77,4 @@ class Slot {
 };
 
 
+#endif
