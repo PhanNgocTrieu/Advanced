@@ -1,15 +1,24 @@
 #include "ls_command.h"
-
-void helper() {
-    printf("Usage: ls -d <directory> -f <files> \
-        \n\t-d <directory> : directory to parse \
-        \n\t-f <files> : pattern to catagorize the tail's file \
-    ");
-}
+#include "logger.h"
 
 int main(int argc, char *argv[]) {
 
-    ls_command ls;
+    try {
+        // LOG_INIT("ls");
+        // LOG_INFO("Hello, world!");
+        ls_command* ls = ls_command::get_instance();
+        if (ls == nullptr) {
+            return ls_command::ReetCode::SystemError;
+        }
+
+        if (argc > 1) {
+            ls->init_with_argc(argc, argv);
+        }
+
+        ls->execute();
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 
     return 0;
 }
