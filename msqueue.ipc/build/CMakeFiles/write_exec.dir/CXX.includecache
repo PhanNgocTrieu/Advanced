@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/researcher/msqueue.ipc/write.cpp
+mqueue.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+errno.h
+-
+

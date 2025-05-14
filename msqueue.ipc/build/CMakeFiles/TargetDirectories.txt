@@ -1,0 +1,5 @@
+/home/researcher/msqueue.ipc/build/CMakeFiles/rebuild_cache.dir
+/home/researcher/msqueue.ipc/build/CMakeFiles/edit_cache.dir
+/home/researcher/msqueue.ipc/build/CMakeFiles/write.dir
+/home/researcher/msqueue.ipc/build/CMakeFiles/read.dir
+/home/researcher/msqueue.ipc/build/CMakeFiles/msg_queue.dir
