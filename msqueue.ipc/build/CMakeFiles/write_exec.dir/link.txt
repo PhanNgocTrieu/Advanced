@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/write_exec.dir/write.cpp.o  -o write_exec  libmsg_queue.a 

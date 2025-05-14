@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/read_exec.dir/read.cpp.o  -o read_exec  libmsg_queue.a 
